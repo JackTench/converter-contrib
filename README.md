@@ -36,4 +36,21 @@ cargo build --release
 
 ---
 
+### Running Tests
+To run the converter and C converter integration tests:
+
+```sh
+cargo test
+```
+
+To run the wasm integration test:
+```sh
+wasm-pack test --firefox --headless
+```
+
+Or, if you have chrome and not firefox:
+```sh
+wasm-pack test --chrome --headless
+```
+
 Published as an npm package under [`@libresplit/converter`](https://npmjs.com/package/@libresplit/converter).

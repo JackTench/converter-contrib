@@ -21,4 +21,7 @@ spex = "0.2.2"
 
 [features]
 default = []
-wasm = ["wasm-bindgen"]
+wasm = ["dep:wasm-bindgen"]
+
+[target.'cfg(target_arch = "wasm32")'.dev-dependencies]
+wasm-bindgen-test = "0.3"

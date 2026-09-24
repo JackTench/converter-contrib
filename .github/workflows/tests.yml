@@ -1,0 +1,36 @@
+name: Tests
+
+on: [pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Run native smoke tests
+        run: cargo test --locked
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+
+      - name: Install wasm-pack
+        run: curl https://drager.github.io/wasm-pack/installer/init.sh -sSf | bash
+
+      - name: Run browser WASM smoke test
+        run: wasm-pack test --firefox --headless --features wasm --locked
+
+      - name: Build JavaScript package
+        run: wasm-pack build --scope libresplit --target web --release --features wasm --locked
+
+      - name: Run JavaScript package smoke test
+        run: node --test tests/package.mjs
